@@ -25,7 +25,6 @@
 
 #include "multiboot.h"
 
-
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
 	(void)magic;
@@ -34,9 +33,11 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char star[4] = "|/-\\";
 	char *fb = (void *)0xb8000;
 
+  write("test", 4);
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}
+
 
 	for (;;)
 		asm volatile ("hlt");
