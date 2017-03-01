@@ -19,6 +19,14 @@ static inline void load_gdtr(struct gdt_r gdtr)
               : "memory");
 }
 
+static inline void enable_prot()
+{
+  asm volatile("pushl $0x42\n\t"\
+               "pushl $1f\n\t"\
+               "lret\n\t"\
+               "1:\n\t");
+}
+
 void init_gdt()
 {
   struct gdt_r gdtr;
@@ -44,4 +52,5 @@ void init_gdt()
 
   //TODO: tss
   load_gdtr(gdtr);
+  enable_prot();
 }
