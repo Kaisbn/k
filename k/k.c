@@ -35,6 +35,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 
   printf("Printf on serial COM1\n");
   init_gdt();
+  printf("Initialisation done\n");
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}

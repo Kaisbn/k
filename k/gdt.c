@@ -40,7 +40,7 @@ void init_desc(u32 base, u32 limit, u8 access, u8 flags, struct gdt_d *gdt)
   gdt->base_hi = (base & 0xff000000) >> 24;
 }
 
-static inline void load_gdtr()
+static void load_gdtr()
 {
   printf("Loading GDT Register\n");
   asm volatile("lgdt %0\n\t"
@@ -67,25 +67,26 @@ static inline void enable_prot()
   printf("\tnew CR0: %d\n", i);
 }
 
-static inline void reload_segments()
+static void reload_segments()
 {
+  asm volatile("pushl $0x42323234");
   asm volatile("movw $0x10, %ax\n\t"\
                "movw %ax, %ds\n\t"\
                "movw %ax, %es\n\t"\
                "movw %ax, %fs\n\t"\
                "movw %ax, %gs\n\t"\
                "movw %ax, %ss\n\t");
+
   asm volatile("pushl $0x08\n\t"\
                "pushl $1f\n\t"\
                "lret\n\t"\
                "1:\n\t");
-  printf("Segments reloaded\n");
 }
 
 void init_gdt()
 {
   gdtr.base = &gdt;
-  gdtr.limit = (sizeof(struct gdt_d) * 6) - 1;
+  gdtr.limit = (sizeof(struct gdt_d) * 3) - 1;
 
 // Flags : G = 1, D/B = 1 , L = 0, AVL = 1
 
@@ -107,6 +108,6 @@ void init_gdt()
   //TODO: tss
   load_gdtr(gdtr);
   print_gdt(gdtr, gdt);
-  enable_prot();
+  //enable_prot();
   reload_segments();
 }

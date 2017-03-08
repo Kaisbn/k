@@ -11,8 +11,8 @@ struct gdt_r
 
 struct gdt_d
 {
-  u16 base_lo; //15:00  => & Oxffff
   u16 limit_lo; //15:00 => & 0xffff
+  u16 base_lo; //15:00  => & Oxffff
   u8 base_mid; //23:16 => & 0xff0000
   u8 type : 4;
   u8 s : 1;
@@ -29,6 +29,6 @@ struct gdt_d
 void init_gdt();
 void print_gdt();
 struct gdt_r gdtr;
-struct gdt_d gdt[6];
+struct gdt_d gdt[3];
 
 #endif /* !K_GDT_H_ */
