@@ -14,12 +14,21 @@ struct gdt_d
   u16 base_lo; //15:00  => & Oxffff
   u16 limit_lo; //15:00 => & 0xffff
   u8 base_mid; //23:16 => & 0xff0000
-  u8 access; // P DPL S Type
+  u8 type : 4;
+  u8 s : 1;
+  u8 dpl : 2;
+  u8 p : 1;
   u8 limit_hi : 4;  //19:16 => 0xf0000
-  u8 flags : 4; // G D/B L AVL => Oxf
+  u8 avl : 1;
+  u8 l : 1;
+  u8 db : 1;
+  u8 g : 1;
   u8 base_hi; //31:24 => & 0xff000000
 }__attribute__((packed));
 
 void init_gdt();
+void print_gdt();
+struct gdt_r gdtr;
+struct gdt_d gdt[6];
 
 #endif /* !K_GDT_H_ */
