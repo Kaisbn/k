@@ -33,9 +33,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char star[4] = "|/-\\";
 	char *fb = (void *)0xb8000;
 
-  printf("Printf on serial COM1\n");
-  init_gdt();
-  printf("Initialisation done\n");
+  	init_gdt();
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}

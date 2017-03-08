@@ -35,11 +35,11 @@ OBJS	= \
 	  strlen.o \
 	  strncmp.o \
 	  strnlen.o \
-    write.o \
+    	  write.o \
 
 DEPS = $(OBJS:.o=.d)
 
-$(OBJS): CPPFLAGS += -MMD -Iinclude -I../../k/include/
+$(OBJS): CPPFLAGS += -MMD -Iinclude -I../../k/include/ -I../../k/
 
 all: $(LIB)
 
