@@ -74,7 +74,7 @@ asm volatile("pushl $0x08\n\t"\
 void init_gdt(void)
 {
 gdtr.base = &gdt;
-gdtr.limit = (sizeof(struct gdt_d) * 3) - 1;
+gdtr.limit = (sizeof(struct gdt_d) * 5) - 1;
 
 
 init_desc(0x0, 0x0, 0x0, 0x0, &gdt[0]); // NULL SEGMENT
@@ -84,10 +84,10 @@ init_desc(0x0, 0xFFFFFFFF, 0x9A, 0xC, &gdt[1]); // Kernel Code Segment
 init_desc(0x0, 0xFFFFFFFF, 0x92, 0xC, &gdt[2]); // Kernel Data Segment
 
 // TODO: Userland
-//  init_desc(0x0, gdtr.limit, 0xFA, 0xD, &gdt[3]); // Userland Code Segment
+  init_desc(0x0, gdtr.limit, 0xFA, 0xC, &gdt[3]); // Userland Code Segment
 // Access: P = 1, DPL = 3, S = 1 (code or data), Type = 0xA (code r-x)
 
-//  init_desc(0x0, gdtr.limit, 0xF2, 0xD, &gdt[4]); // Userland Data Segment
+  init_desc(0x0, gdtr.limit, 0xF2, 0xC, &gdt[4]); // Userland Data Segment
 // Access: P = 1, DPL = 3, S = 1 (code or data), Type = 0x2 (code rw-)
 
 //TODO: tss

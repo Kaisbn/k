@@ -29,6 +29,6 @@ struct gdt_d
 void init_gdt();
 void print_gdt();
 struct gdt_r gdtr;
-struct gdt_d gdt[3];
+struct gdt_d gdt[5];
 
 #endif /* !K_GDT_H_ */
