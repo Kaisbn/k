@@ -58,8 +58,8 @@ static inline void enable_prot(void)
 {
 	asm volatile("movl %cr0, %eax\n\t"\
 			"movl $0x1, %ebx\n\t"\
-			"xor %ebx, %eax\n\t"\
-			"movl %eax, %cr0\n\t"); //Switch PE bit
+			"or %ebx, %eax\n\t"\
+			"movl %eax, %cr0\n\t"); //Switch PE bit if non set
 }
 
 static void reload_segments(void)
@@ -97,6 +97,7 @@ void init_gdt(void)
 
 	//TODO: tss
 	load_gdtr();
+  enable_prot();
 	print_gdt();
 	reload_segments();
 }
