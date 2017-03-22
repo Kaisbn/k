@@ -4,7 +4,7 @@
 void print_desc(const struct gdt_d *gdt)
 {
 	printf("Base (31:24): %u\tG: %u\tD/B: %u\tL: %u\tAVL: %u\t\
-		Limit (19:16):%u\t",
+		Limit (19:16): %u\t",
 		gdt->base_hi, gdt->g, gdt->db, gdt->l, gdt->avl, gdt->limit_hi);
 	printf("P: %u\tDPL: %u\tS: %u\tType: %u\tBase (23:16): %u\n\t",
 		gdt->p, gdt->dpl, gdt->s,
@@ -85,15 +85,13 @@ void init_gdt(void)
 
 	init_desc(0x0, 0x0, 0x0, 0x0, &gdt[0]); // NULL SEGMENT
 
-	init_desc(0x0, 0xFFFFFFFF, 0x9A, 0xC, &gdt[1]); // Kernel Code Segment
+	init_desc(0x0, 0xFFFFFFFF, P_SET|S_SET|TYPE_RW, G_SET|DB_SET, &gdt[1]); // Kernel Code Segment
 
-	init_desc(0x0, 0xFFFFFFFF, 0x92, 0xC, &gdt[2]); // Kernel Data Segment
+	init_desc(0x0, 0xFFFFFFFF, P_SET|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[2]); // Kernel Data Segment
 
-	init_desc(0x0, 0xFFFFFFFF, 0xFA, 0xC, &gdt[3]); // Userland Code Segment
-	// Access: P = 1, DPL = 3, S = 1 (code or data), Type = 0xA (code r-x)
+	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RW, G_SET|DB_SET, &gdt[3]); // Userland Code Segment
 
-	init_desc(0x0, 0xFFFFFFFF, 0xF2, 0xC, &gdt[4]); // Userland Data Segment
-	// Access: P = 1, DPL = 3, S = 1 (code or data), Type = 0x2 (code rw-)
+	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[4]); // Userland Data Segment
 
 	//TODO: tss
 	load_gdtr();

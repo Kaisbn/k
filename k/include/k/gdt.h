@@ -3,6 +3,17 @@
 
 #include <k/types.h>
 
+#define G_SET             0x8
+#define DB_SET            0x4
+#define L_SET             0x2
+#define AVL_SET           0x1
+
+#define P_SET             0x80
+#define DPL_USER          0x60
+#define S_SET             0x10
+#define TYPE_RW           0xA
+#define TYPE_RX           0x2
+
 struct gdt_r
 {
   u16 limit;
