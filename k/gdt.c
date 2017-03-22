@@ -1,7 +1,7 @@
 #include <k/gdt.h>
 #include "multiboot.h"
 
-void print_desc(const struct gdt_d *gdt)
+static void print_desc(const struct gdt_d *gdt)
 {
 	printf("Base (31:24): %u\tG: %u\tD/B: %u\tL: %u\tAVL: %u\t\
 		Limit (19:16): %u\t",
@@ -13,7 +13,7 @@ void print_desc(const struct gdt_d *gdt)
 		gdt->limit_lo);
 }
 
-void print_gdt(void)
+static void print_gdt(void)
 {
 	printf("GDT:\n\tbase: %u\n\tlimit: %u\n", gdtr.base, gdtr.limit);
 	printf("Descriptors:\n");
@@ -29,7 +29,7 @@ void print_gdt(void)
 	print_desc(&gdt[4]);
 }
 
-void init_desc(u32 base, u32 limit, u8 access, u8 flags, struct gdt_d *gdt)
+static void init_desc(u32 base, u32 limit, u8 access, u8 flags, struct gdt_d *gdt)
 {
 	gdt->base_lo = (base & 0xffff);
 	gdt->limit_lo = (limit & 0xffff);
@@ -54,12 +54,12 @@ static void load_gdtr(void)
 			: "memory");
 }
 
-static inline void enable_prot(void)
+static void enable_prot(void)
 {
 	asm volatile("movl %cr0, %eax\n\t"\
 			"movl $0x1, %ebx\n\t"\
 			"or %ebx, %eax\n\t"\
-			"movl %eax, %cr0\n\t"); //Switch PE bit if non set
+			"movl %eax, %cr0\n\t"); //Switch PE bit if not set
 }
 
 static void reload_segments(void)
@@ -93,9 +93,8 @@ void init_gdt(void)
 
 	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[4]); // Userland Data Segment
 
-	//TODO: tss
-	load_gdtr();
   enable_prot();
+	load_gdtr();
 	print_gdt();
 	reload_segments();
 }

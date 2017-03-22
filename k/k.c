@@ -25,6 +25,8 @@
 
 #include "multiboot.h"
 
+#define COM1 0x3f8
+
 void k_main(unsigned long magic, multiboot_info_t *info)
 {
 	(void)magic;
@@ -32,8 +34,8 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 
 	char star[4] = "|/-\\";
 	char *fb = (void *)0xb8000;
-
-  	init_gdt();
+  init_serial(COM1);
+  init_gdt();
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}
