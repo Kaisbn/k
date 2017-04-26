@@ -28,7 +28,8 @@ OBJS	= \
 	  crt0.o \
 	  k.o \
 	  libvga.o \
-    	  gdt.o \
+ 	  gdt.o \
+    idt.o \
 
 
 DEPS = $(OBJS:.o=.d)
