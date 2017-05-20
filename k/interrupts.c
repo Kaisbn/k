@@ -38,10 +38,9 @@ void set_gates()
 
 void c_handler(struct registers regs)
 {
-  printf("number: %d\n", regs.nbr);
-  if (regs.nbr < 32)
+  if (regs.int_no < 32)
   {
-    printf(messages[regs.nbr]);
+    printf("Interrupt: %s\n", messages[regs.int_no]);
     for (;;);
   }
 }

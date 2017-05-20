@@ -11,17 +11,13 @@ static void load_idtr(void)
 
 void init_idt(void)
 {
-	idtr.base = &idt;
-	idtr.limit = sizeof(idt) - 1;
+	idtr.base = (u32)&idt;
+	idtr.limit = sizeof(struct idt_d) * 256 - 1;
 
-  printf("Memset\n");
-  memset(&idt, 0, sizeof(idt));
-  printf("Setting Gates\n");
+  memset(&idt, 0, sizeof(struct idt_d) * 256);
   set_gates();
-  printf("Loading idtr\n");
 	load_idtr();
-  printf("Interruption\n");
-  __asm__ volatile("int $0x10");
+  __asm__ volatile("int $0x8");
 }
 
 void init_desc(u8 nbr, u32 base, u16 sel, u8 type)

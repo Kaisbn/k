@@ -95,6 +95,5 @@ void init_gdt(void)
 
   enable_prot();
 	load_gdtr();
-	print_gdt();
 	reload_segments();
 }

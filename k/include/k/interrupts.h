@@ -81,7 +81,7 @@ struct registers
 {
   u32 ds;
   u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
-  u32 nbr, code;
+  u32 int_no, err_code;
   u32 epi, cs, eflags, useresp, ss;
 };
 
