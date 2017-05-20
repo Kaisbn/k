@@ -85,7 +85,7 @@ struct registers
   u32 epi, cs, eflags, useresp, ss;
 };
 
-void set_gates();
+void set_gates(void);
 void c_handler(struct registers regs);
 
 #endif /* !K_INT_H_ */

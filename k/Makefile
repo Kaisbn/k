@@ -33,6 +33,8 @@ OBJS	= \
     idt.o \
     routine.o \
     interrupts.o \
+    irq_routine.o \
+    irq.o \
 
 
 DEPS = $(OBJS:.o=.d)

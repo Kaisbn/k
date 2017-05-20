@@ -1,6 +1,6 @@
 #include "k/interrupts.h"
 
-void set_gates()
+void set_gates(void)
 {
   init_desc(0, (u32)isr0, 0x8, D_INT);
   init_desc(1, (u32)isr1, 0x8, D_INT);

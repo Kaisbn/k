@@ -16,8 +16,9 @@ void init_idt(void)
 
   memset(&idt, 0, sizeof(struct idt_d) * 256);
   set_gates();
+  init_irq_gates();
 	load_idtr();
-  __asm__ volatile("int $0x8");
+  __asm__ volatile("int $0x20");
 }
 
 void init_desc(u8 nbr, u32 base, u16 sel, u8 type)
