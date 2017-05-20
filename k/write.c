@@ -1,5 +1,5 @@
-#include <string.h>
-#include <io.h>
+#include "string.h"
+#include "io.h"
 
 #define COM1 0x3f8
 

@@ -3,10 +3,8 @@
 
 #include <k/types.h>
 
-#define P_SET             0x01
-#define DPL               0x00
-#define D_TRAP            0xF
-#define D_INT             0xE
+#define D_INT             0x8E
+#define D_TRAP            0x8F
 
 struct idt_r
 {
@@ -17,16 +15,17 @@ struct idt_r
 struct idt_d
 {
   u16 offset_lo;
-  u16 seg;
-  u8 res : 8;
-  u8 gate : 5;
-  u8 dpl : 2;
-  u8 p : 1;
+  u16 sel;
+  u8 offset_mid;
+  u8 type;
   u16 offset_hi;
 }__attribute__((packed));
+
+void init_idt(void);
+void init_desc(u8 nbr, u32 base, u16 sel, u8 type);
 
 void init_idt();
 struct idt_r idtr;
 struct idt_d idt[256];
 
-#endif /* !K_GDT_H_ */
+#endif /* !K_IDT_H_ */

@@ -28,8 +28,11 @@ OBJS	= \
 	  crt0.o \
 	  k.o \
 	  libvga.o \
+    write.o \
  	  gdt.o \
     idt.o \
+    routine.o \
+    interrupts.o \
 
 
 DEPS = $(OBJS:.o=.d)
