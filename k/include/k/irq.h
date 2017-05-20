@@ -34,8 +34,10 @@ struct registers
 };
 
 void *irq_handlers[16] = { 0 };
+typedef void (*interrupt)(struct registers);
 
 void sendEOI(u8 irq);
+void set_handler(u8 irq, interrupt handler);
 void init_pic(void);
 void init_irq_gates(void);
 

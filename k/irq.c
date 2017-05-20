@@ -8,6 +8,11 @@ void sendEOI(u8 irq)
   outb(EOI, PIC1);
 }
 
+void set_handler(u8 irq, interrupt handler)
+{
+  irq_handlers[irq] = handler; 
+}
+
 void init_pic(void)
 {
   outb(0x11, 0x20); 
@@ -45,12 +50,9 @@ void init_irq_gates(void)
 void c_irq_handler(struct registers regs)
 {
   u8 irq = regs.int_no - 32;
-  typedef void (*interrupt)(struct registers);
-  sendEOI(irq);
-  if (irq_handlers[irq] != 0)
-  {
-    interrupt handler = irq_handlers[irq];
-    handler(regs); 
-  }
   printf("IRQ: %d\n", irq);
+  interrupt handler = irq_handlers[irq];
+  if (handler)
+    handler(regs); 
+  sendEOI(irq);
 }

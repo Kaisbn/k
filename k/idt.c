@@ -1,5 +1,6 @@
 #include <k/idt.h>
-#include "multiboot.h"
+#include "io.h"
+#include "k/keyboard.h"
 
 static void load_idtr(void)
 {
@@ -18,8 +19,11 @@ void init_idt(void)
   init_pic();
   set_gates();
   init_irq_gates();
+  set_handler(1, keyboard_handler);
 	load_idtr();
-  asm volatile("int $0x20");
+  outb(0xFD, 0x21);
+  outb(0xFF, 0xA1);
+  asm volatile ("sti");
 }
 
 void init_desc(u8 nbr, u32 base, u16 sel, u8 type)

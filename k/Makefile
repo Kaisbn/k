@@ -35,6 +35,7 @@ OBJS	= \
     interrupts.o \
     irq_routine.o \
     irq.o \
+    keyboard.o \
 
 
 DEPS = $(OBJS:.o=.d)
