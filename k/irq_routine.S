@@ -32,83 +32,83 @@
 .global irq31
 
 irq0:
-pushl 0
-pushl 32
+pushl $0
+pushl $32
 jmp irq_handler
 
 irq1:
-pushl 0
-pushl 33
+pushl $0
+pushl $33
 jmp irq_handler
 
 irq2:
-pushl 0
-pushl 34
+pushl $0
+pushl $34
 jmp irq_handler
 
 irq3:
-pushl 0
-pushl 35
+pushl $0
+pushl $35
 jmp irq_handler
 
 irq4:
-pushl 0
-pushl 36
+pushl $0
+pushl $36
 jmp irq_handler
 
 irq5:
-pushl 0
-pushl 37
+pushl $0
+pushl $37
 jmp irq_handler
 
 irq6:
-pushl 0
-pushl 38
+pushl $0
+pushl $38
 jmp irq_handler
 
 irq7:
-pushl 0
-pushl 39
+pushl $0
+pushl $39
 jmp irq_handler
 
 irq8:
-pushl 0
-pushl 40
+pushl $0
+pushl $40
 jmp irq_handler
 
 irq9:
-pushl 0
-pushl 41
+pushl $0
+pushl $41
 jmp irq_handler
 
 irq10:
-pushl 0
-pushl 42
+pushl $0
+pushl $42
 jmp irq_handler
 
 irq11:
-pushl 0
-pushl 43
+pushl $0
+pushl $43
 jmp irq_handler
 
 irq12:
-pushl 0
-pushl 44
+pushl $0
+pushl $44
 jmp irq_handler
 
 irq13:
-pushl 0
-pushl 45
+pushl $0
+pushl $45
 jmp irq_handler
 
 irq14:
-pushl 0
-pushl 46
+pushl $0
+pushl $46
 jmp irq_handler
 
 irq15:
-pushl 0
-pushl 47
+pushl $0
+pushl $47
 jmp irq_handler
 
 .extern c_irq_handler
