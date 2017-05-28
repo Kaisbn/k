@@ -4,8 +4,8 @@
 #include "k/types.h"
 
 #define PIC1  0x20
-#define PIC2  0x9D
-#define EOI   0x1e
+#define PIC2  0xA0
+#define EOI   0x20
 #define D_INT 0x8E
 
 extern void irq0();

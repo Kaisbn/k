@@ -4,27 +4,27 @@
 void sendEOI(u8 irq)
 {
   if (irq > 7)
-    outb(EOI, PIC2);
-  outb(EOI, PIC1);
+    outb(PIC2, EOI);
+  outb(PIC1, EOI);
 }
 
 void set_handler(u8 irq, interrupt handler)
 {
-  irq_handlers[irq] = handler; 
+  irq_handlers[irq] = handler;
 }
 
 void init_pic(void)
 {
-  outb(0x11, 0x20); 
-  outb(0x11, 0xA0); 
-  outb(0x20, 0x21);
-  outb(0x28, 0xA1);
-  outb(0x04, 0x21);
-  outb(0x02, 0xA1);
-  outb(0x01, 0x21);
-  outb(0x01, 0xA1);
-  outb(0x0, 0x21);
-  outb(0x0, 0xA1);
+  outb(0x20, 0x11);
+  outb(0xA0, 0x11);
+  outb(0x21, 0x20);
+  outb(0xA1, 0x28);
+  outb(0x21, 0x04);
+  outb(0xA1, 0x02);
+  outb(0x21, 0x01);
+  outb(0xA1, 0x01);
+  outb(0x21, 0x00);
+  outb(0xA1, 0x00);
 }
 
 void init_irq_gates(void)
@@ -53,6 +53,6 @@ void c_irq_handler(struct registers regs)
   printf("IRQ: %d\n", irq);
   interrupt handler = irq_handlers[irq];
   if (handler)
-    handler(regs); 
+    handler(regs);
   sendEOI(irq);
 }

@@ -19,10 +19,8 @@ void init_idt(void)
   init_pic();
   set_gates();
   init_irq_gates();
-  set_handler(1, keyboard_handler);
+  set_handler(0, keyboard_handler);
 	load_idtr();
-  outb(0xFD, 0x21);
-  outb(0xFF, 0xA1);
   asm volatile ("sti");
 }
 
