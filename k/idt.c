@@ -1,6 +1,5 @@
 #include <k/idt.h>
 #include "io.h"
-#include "k/keyboard.h"
 
 static void load_idtr(void)
 {
@@ -19,7 +18,9 @@ void init_idt(void)
   init_pic();
   set_gates();
   init_irq_gates();
-  set_handler(0, keyboard_handler);
+  set_handler(0, timer_handler);
+  set_handler(1, keyboard_handler);
+  init_timer();
 	load_idtr();
   asm volatile ("sti");
 }

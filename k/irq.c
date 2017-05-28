@@ -50,7 +50,6 @@ void init_irq_gates(void)
 void c_irq_handler(struct registers regs)
 {
   u8 irq = regs.int_no - 32;
-  printf("IRQ: %d\n", irq);
   interrupt handler = irq_handlers[irq];
   if (handler)
     handler(regs);
