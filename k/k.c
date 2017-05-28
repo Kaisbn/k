@@ -37,6 +37,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   init_serial(COM1);
   init_gdt();
   init_idt();
+  init_kfs(info);
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}

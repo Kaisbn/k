@@ -37,6 +37,7 @@ OBJS	= \
     irq.o \
     keyboard.o \
     timer.o \
+    kfs.o \
 
 
 DEPS = $(OBJS:.o=.d)
