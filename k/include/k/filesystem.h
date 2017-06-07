@@ -2,9 +2,11 @@
 #define K_FILESYSTEM_H_
 
 #include "k/kstd.h"
+#include "k/kfs.h"
 #include "../multiboot.h"
 
 int *fds = NULL;
+struct kfs_superblock *super = NULL;
 
 void init_kfs(multiboot_info_t *info);
 int open(const char *pathname, int flags);

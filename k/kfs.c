@@ -1,9 +1,8 @@
 #include "k/filesystem.h"
-#include "k/kfs.h"
 
 void init_kfs(multiboot_info_t *info)
 {
-  struct kfs_superblock *super = (void *)((module_t*)info->mods_addr)[0].mod_start;
+  super = (void *)((module_t*)info->mods_addr)[0].mod_start;
   if (super->magic != KFS_MAGIC)
     return;
   unsigned int checksum = kfs_checksum(super, sizeof(struct kfs_superblock) - sizeof(u32));
@@ -18,5 +17,4 @@ int open(const char *pathname, int flags)
 {
   if (!pathname)
     return -1;
-  
 }
