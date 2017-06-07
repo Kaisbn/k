@@ -13,6 +13,6 @@ int getkey(void)
 void keyboard_handler(struct registers regs)
 {
   int scan = getkey();
-  if (scan != -1)
-    printf("Keyboard scancode: %d\n", scan);
+  //if (scan != -1)
+    //printf("Keyboard scancode: %d\n", scan);
 }

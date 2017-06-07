@@ -5,8 +5,16 @@
 #include "k/kfs.h"
 #include "../multiboot.h"
 
-int *fds = NULL;
+struct kfs_inode *fds = NULL;
 struct kfs_superblock *super = NULL;
+
+struct file_desc 
+{
+  int fd;
+  int flags;
+  int inode_idx;
+  char* buf;
+}__packed;
 
 void init_kfs(multiboot_info_t *info);
 int open(const char *pathname, int flags);

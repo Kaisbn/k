@@ -21,6 +21,6 @@ void init_timer(void)
 void timer_handler(struct registers regs)
 {
   counter++;
-  if (counter % 100 == 0)
-    printf("%d seconds\n", counter / 100);
+  //if (counter % 100 == 0)
+    //printf("%d seconds\n", counter / 100);
 }

@@ -1,8 +1,8 @@
-CFLAGS	= -std=gnu99 -Os -Wall -Wextra -nostdinc -fno-builtin -ffreestanding \
-	  -m32 -fno-asynchronous-unwind-tables -fno-common -static -g
+CFLAGS	= -std=gnu99 -Og -Wall -Wextra -nostdinc -fno-builtin -ffreestanding \
+	  -m32 -fno-asynchronous-unwind-tables -fno-common -static
 # SSP causes compilation problems on Ubuntu
 CFLAGS	+= -fno-stack-protector
-#K_EXTRA_CFLAGS = -g3
+K_EXTRA_CFLAGS = -g3 -fno-inline
 #CFLAGS += -ffunction-sections -fdata-sections
 CPPFLAGS += -I$(shell $(CC) -m32 --print-file-name=include)
 
