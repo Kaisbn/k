@@ -36,8 +36,16 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char *fb = (void *)0xb8000;
   init_serial(COM1);
   init_kfs(info);
-  int fd = open("chiche.bmp", 1);
+  int fd = open("lol.txt", 1);
   printf("FD: %d\n", fd);
+  char buf[1024] = {
+    0
+  };
+  ssize_t rd = read(fd, &buf, 100);
+  printf("Read: %d\n", rd);
+  printf("buffer: %s\n", buf);
+  int cl = close(fd);
+  printf("Closed: %d\n", cl);
   init_gdt();
   init_idt();
   //int fd = open("lol", 1);
