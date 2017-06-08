@@ -30,5 +30,6 @@ struct idt_d idt[256];
 
 extern void keyboard_handler();
 extern void timer_handler();
+extern void print_handler();
 
 #endif /* !K_IDT_H_ */

@@ -20,6 +20,7 @@ void init_idt(void)
   init_irq_gates();
   set_handler(0, timer_handler);
   set_handler(1, keyboard_handler);
+  set_syscall_handler(1, print_handler);
   init_timer();
 	load_idtr();
   asm volatile ("sti");

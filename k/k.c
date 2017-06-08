@@ -49,6 +49,8 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   printf("Closed: %d\n", cl);
   init_gdt();
   init_idt();
+  init_syscall();
+  print("Hello\n");
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}

@@ -38,6 +38,8 @@ OBJS	= \
     keyboard.o \
     timer.o \
     kfs.o \
+    syscalls.o \
+    syscall_routine.o \
 
 
 DEPS = $(OBJS:.o=.d)
