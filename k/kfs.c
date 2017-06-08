@@ -18,7 +18,7 @@ void init_kfs(multiboot_info_t *info)
 
 int open(const char *pathname, int flags)
 {
-  if (!pathname)
+  if (!pathname || flags != O_RDONLY)
     return -1;
   struct kfs_inode *ino = get_blk(super->inode_idx);
   u32 size = sizeof(struct kfs_inode) - sizeof(u32);
@@ -50,8 +50,9 @@ ssize_t read(int fd, void *buf, size_t count)
       blk.cksum = 0;
       if (kfs_checksum(&blk, sizeof(struct kfs_block)) != cksum)
         return -1;
-      for (; count != 0 && blk.data[off]; --count, ++read, ++buf, ++off)
-        memcpy(buf, &blk.data[off], sizeof(u8));
+      for (int i = table[fd]; count != 0 && i < KFS_BLK_DATA_SZ;
+          --count, ++read, ++off, ++i)
+        memcpy(buf++, &blk.data[i], sizeof(u8));
     }
     else
       break;
@@ -70,8 +71,10 @@ ssize_t read(int fd, void *buf, size_t count)
           blk.cksum = 0;
           if (kfs_checksum(&blk, sizeof(struct kfs_block)) != cksum)
             return -1;
-          for (; count != 0 && blk.data[off]; --count, ++read, ++buf, ++off)
-            memcpy(buf, &blk.data[off], sizeof(u8));
+          int i = ino->d_blk_cnt == 0 ? table[fd] : 0;
+          for (; count != 0 && i < KFS_BLK_DATA_SZ;
+              --count, ++read, ++off, ++i)
+            memcpy(buf++, &blk.data[i], sizeof(u8));
         }
         else
           break;
@@ -82,6 +85,24 @@ ssize_t read(int fd, void *buf, size_t count)
   }
   table[fd] = ++off;
   return read;
+}
+
+off_t seek(int fd, off_t offset, int whence)
+{
+  if (fd < 0 || table[fd] == -1)
+    return -1;
+  if (whence == SEEK_SET)
+    table[fd] = offset;
+  else if (whence == SEEK_CUR)
+    table[fd] += offset;
+  else if (whence == SEEK_END)
+  {
+    struct kfs_inode *ino = get_blk(fd);
+    table[fd] = ino->file_sz + offset;
+  }
+  else
+    return -1;
+  return table[fd];
 }
 
 int close(int fd)

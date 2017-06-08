@@ -36,19 +36,19 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char *fb = (void *)0xb8000;
   init_serial(COM1);
   init_kfs(info);
-  int fd = open("chiche.bmp", 1);
+  int fd = open("bush.bmp", O_RDONLY);
   printf("FD: %d\n", fd);
-  char buf[1024] = {
+  char buf[60000] = {
     0
   };
-  ssize_t rd = read(fd, &buf, 100);
+  seek(fd, 1, SEEK_CUR);
+  ssize_t rd = read(fd, &buf, 10);
   printf("Read: %d\n", rd);
   printf("buffer: %s\n", buf);
   int cl = close(fd);
   printf("Closed: %d\n", cl);
   init_gdt();
   init_idt();
-  //int fd = open("lol", 1);
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}
