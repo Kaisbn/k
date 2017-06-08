@@ -36,7 +36,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char *fb = (void *)0xb8000;
   init_serial(COM1);
   init_kfs(info);
-  int fd = open("lol.txt", 1);
+  int fd = open("chiche.bmp", 1);
   printf("FD: %d\n", fd);
   char buf[1024] = {
     0

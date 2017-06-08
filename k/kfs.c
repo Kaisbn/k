@@ -45,9 +45,13 @@ ssize_t read(int fd, void *buf, size_t count)
   {
     if (count > read)
     {
-      struct kfs_block *blk = get_blk(ino->d_blks[i]);
-      for (; count != 0; --count, ++read, ++buf, ++off)
-        memcpy(buf, &blk->data[off], sizeof(u8));
+      struct kfs_block blk = *((struct kfs_block *)get_blk(ino->d_blks[i]));
+      u32 cksum = blk.cksum;
+      blk.cksum = 0;
+      if (kfs_checksum(&blk, sizeof(struct kfs_block)) != cksum)
+        return -1;
+      for (; count != 0 && blk.data[off]; --count, ++read, ++buf, ++off)
+        memcpy(buf, &blk.data[off], sizeof(u8));
     }
     else
       break;
@@ -61,9 +65,13 @@ ssize_t read(int fd, void *buf, size_t count)
       {
         if (count > read)
         {
-          struct kfs_block *blk = get_blk(ino->d_blks[i]);
-          for (; count != 0; --count, ++read, ++buf, ++off)
-            memcpy(buf, &blk->data[off], sizeof(u8));
+          struct kfs_block blk = *((struct kfs_block *)get_blk(iblk->blks[j]));
+          u32 cksum = blk.cksum;
+          blk.cksum = 0;
+          if (kfs_checksum(&blk, sizeof(struct kfs_block)) != cksum)
+            return -1;
+          for (; count != 0 && blk.data[off]; --count, ++read, ++buf, ++off)
+            memcpy(buf, &blk.data[off], sizeof(u8));
         }
         else
           break;
@@ -72,7 +80,7 @@ ssize_t read(int fd, void *buf, size_t count)
     else
       break;
   }
-  table[fd] = off;
+  table[fd] = ++off;
   return read;
 }
 
