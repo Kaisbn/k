@@ -39,5 +39,6 @@ extern void seek_handler();
 extern void close_handler();
 extern void setvideo_handler();
 extern void swap_frontbuffer_handler();
+extern void sbrk_handler();
 
 #endif /* !K_IDT_H_ */

@@ -29,6 +29,7 @@ void seek_handler(struct registers *regs);
 void close_handler(struct registers *regs);
 void setvideo_handler(struct registers *regs);
 void swap_frontbuffer_handler(struct registers *regs);
+void sbrk_handler(struct registers *regs);
 
 int sys_setvideo(int mode);
 

@@ -67,6 +67,11 @@ void swap_frontbuffer_handler(struct registers *regs)
   regs->eax = 0;
 }
 
+void sbrk_handler(struct registers *regs)
+{
+  regs->eax = sbrk(regs->ebx);
+}
+
 static inline u32 syscall0(int syscall_nb)
 {
 	u32 res;
