@@ -1,8 +1,9 @@
 #include "k/syscalls.h"
+#include "k/kstd.h"
 
 void init_syscall()
 {
-  init_desc(0x80, (u32)sys_int, 0x8, D_INT);
+  init_desc(0x80, (u32)sys_int, 0x8, D_TRAP);
 }
 
 void set_syscall_handler(int id, syscall handler)
@@ -37,22 +38,33 @@ void gettick_handler(struct registers *regs)
 
 void open_handler(struct registers *regs)
 {
-  regs->eax = open((char *)regs->eax, regs->ebx);
+  regs->eax = open((char *)regs->ebx, regs->ecx);
 }
 
 void read_handler(struct registers *regs)
 {
-  regs->eax = read(regs->eax, (void *)regs->ebx, regs->ecx);
+  regs->eax = read(regs->ebx, (void *)regs->ecx, regs->edx);
 }
 
 void seek_handler(struct registers *regs)
 {
-  regs->eax = seek(regs->eax, regs->ebx, regs->ecx);
+  regs->eax = seek(regs->ebx, regs->ecx, regs->edx);
 }
 
 void close_handler(struct registers *regs)
 {
-  regs->eax = close(regs->eax);
+  regs->eax = close(regs->ebx);
+}
+
+void setvideo_handler(struct registers *regs)
+{
+  regs->eax = setvideo(regs->ebx);
+}
+
+void swap_frontbuffer_handler(struct registers *regs)
+{
+  swap_frontbuffer(regs->ebx);
+  regs->eax = 0;
 }
 
 static inline u32 syscall0(int syscall_nb)
@@ -89,4 +101,9 @@ static inline u32 syscall3(int syscall_nb, u32 ebx, u32 ecx, u32 edx)
 	asm volatile ("int $0x80" : "=a"(res) : "a"(syscall_nb), "b"(ebx), "c"(ecx), "d"(edx));
 
 	return res;
+}
+
+int sys_setvideo(int mode)
+{
+  return (int)(syscall1(SYSCALL_SETVIDEO, mode));
 }

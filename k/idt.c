@@ -28,6 +28,8 @@ void init_idt(void)
   set_syscall_handler(SYSCALL_READ, read_handler);
   set_syscall_handler(SYSCALL_SEEK, seek_handler);
   set_syscall_handler(SYSCALL_CLOSE, close_handler);
+  set_syscall_handler(SYSCALL_SETVIDEO, setvideo_handler);
+  set_syscall_handler(SYSCALL_SWAP_FRONTBUFFER, swap_frontbuffer_handler);
   init_timer();
   load_idtr();
   asm volatile ("sti");
