@@ -32,6 +32,7 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	(void)magic;
 	(void)info;
 
+
 	char star[4] = "|/-\\";
 	char *fb = (void *)0xb8000;
   init_serial(COM1);
@@ -50,6 +51,9 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   init_gdt();
   init_idt();
   init_syscall();
+  init_brk(info);
+  char *brk = sbrk(10);
+  brk[0] = 's';
 
   sys_setvideo(VIDEO_GRAPHIC);
 	for (unsigned i = 0; ; ) {
