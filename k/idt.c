@@ -1,4 +1,5 @@
 #include <k/idt.h>
+#include <k/kstd.h>
 #include "io.h"
 
 static void load_idtr(void)
@@ -20,9 +21,15 @@ void init_idt(void)
   init_irq_gates();
   set_handler(0, timer_handler);
   set_handler(1, keyboard_handler);
-  set_syscall_handler(1, print_handler);
+  set_syscall_handler(SYSCALL_WRITE, write_handler);
+  set_syscall_handler(SYSCALL_GETKEY, getkey_handler);
+  set_syscall_handler(SYSCALL_GETTICK, gettick_handler);
+  set_syscall_handler(SYSCALL_OPEN, open_handler);
+  set_syscall_handler(SYSCALL_READ, read_handler);
+  set_syscall_handler(SYSCALL_SEEK, seek_handler);
+  set_syscall_handler(SYSCALL_CLOSE, close_handler);
   init_timer();
-	load_idtr();
+  load_idtr();
   asm volatile ("sti");
 }
 

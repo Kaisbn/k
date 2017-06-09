@@ -30,6 +30,12 @@ struct idt_d idt[256];
 
 extern void keyboard_handler();
 extern void timer_handler();
-extern void print_handler();
+extern void write_handler(struct registers *regs);
+extern void getkey_handler(struct registers *regs);
+extern void gettick_handler(struct registers *regs);
+extern void open_handler(struct registers *regs);
+extern void read_handler(struct registers *regs);
+extern void seek_handler(struct registers *regs);
+extern void close_handler(struct registers *regs);
 
 #endif /* !K_IDT_H_ */
