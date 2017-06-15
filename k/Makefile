@@ -42,6 +42,7 @@ OBJS	= \
     syscall_routine.o \
     graphic.o \
     sbrk.o \
+    binary.o \
 
 
 DEPS = $(OBJS:.o=.d)

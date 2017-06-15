@@ -1,6 +1,9 @@
 #include <k/gdt.h>
 #include "multiboot.h"
 
+struct gdt_d gdt[5];
+struct gdt_r gdtr;
+
 static void print_desc(const struct gdt_d *gdt)
 {
 	printf("Base (31:24): %u\tG: %u\tD/B: %u\tL: %u\tAVL: %u\t\
@@ -85,13 +88,13 @@ void init_gdt(void)
 
 	init_desc(0x0, 0x0, 0x0, 0x0, &gdt[0]); // NULL SEGMENT
 
-	init_desc(0x0, 0xFFFFFFFF, P_SET|S_SET|TYPE_RW, G_SET|DB_SET, &gdt[1]); // Kernel Code Segment
+	init_desc(0x0, 0xFFFFFFFF, P_SET|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[1]); // Kernel Code Segment
 
-	init_desc(0x0, 0xFFFFFFFF, P_SET|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[2]); // Kernel Data Segment
+	init_desc(0x0, 0xFFFFFFFF, P_SET|S_SET|TYPE_RW, G_SET|DB_SET, &gdt[2]); // Kernel Data Segment
 
-	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RW, G_SET|DB_SET, &gdt[3]); // Userland Code Segment
+	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[3]); // Userland Code Segment
 
-	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RX, G_SET|DB_SET, &gdt[4]); // Userland Data Segment
+	init_desc(0x0, 0xFFFFFFFF, P_SET|DPL_USER|S_SET|TYPE_RW, G_SET|DB_SET, &gdt[4]); // Userland Data Segment
 
   enable_prot();
 	load_gdtr();

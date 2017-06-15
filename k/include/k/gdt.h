@@ -11,8 +11,8 @@
 #define P_SET             0x80
 #define DPL_USER          0x60
 #define S_SET             0x10
-#define TYPE_RW           0xA
-#define TYPE_RX           0x2
+#define TYPE_RX           0xA
+#define TYPE_RW           0x2
 
 struct gdt_r
 {
@@ -38,7 +38,5 @@ struct gdt_d
 }__attribute__((packed));
 
 void init_gdt();
-struct gdt_r gdtr;
-struct gdt_d gdt[5];
 
 #endif /* !K_GDT_H_ */

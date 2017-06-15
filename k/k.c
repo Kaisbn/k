@@ -37,25 +37,17 @@ void k_main(unsigned long magic, multiboot_info_t *info)
 	char *fb = (void *)0xb8000;
   init_serial(COM1);
   init_kfs(info);
-  int fd = open("bush.bmp", O_RDONLY);
-  printf("FD: %d\n", fd);
-  char buf[60000] = {
-    0
-  };
-  seek(fd, 1, SEEK_CUR);
-  ssize_t rd = read(fd, &buf, 10);
-  printf("Read: %d\n", rd);
-  printf("buffer: %s\n", buf);
-  int cl = close(fd);
-  printf("Closed: %d\n", cl);
   init_gdt();
   init_idt();
   init_syscall();
   init_brk(info);
-  char *brk = sbrk(10);
-  brk[0] = 's';
-
-  sys_setvideo(VIDEO_GRAPHIC);
+  int elf = load_elf(info);
+  if (!elf)
+    return;
+  asm volatile ("movl %0, %%eax\n\t"
+                "jmp %%eax\n\t"
+      :
+      : "a"(elf));
 	for (unsigned i = 0; ; ) {
 		*fb = star[i++ % 4];
 	}
