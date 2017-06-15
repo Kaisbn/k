@@ -52,7 +52,7 @@ int load_elf(multiboot_info_t *info)
       }
     }
     close(fd);
-    return hdr.e_entry;
+    return &gdt[1] + hdr.e_entry;
   }
   return 0;
 }

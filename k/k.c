@@ -44,8 +44,8 @@ void k_main(unsigned long magic, multiboot_info_t *info)
   int elf = load_elf(info);
   if (!elf)
     return;
-  asm volatile ("movl %0, %%eax\n\t"
-                "jmp %%eax\n\t"
+  asm volatile ("movl %0, %%eax\n\t"\
+                "jmp *%%eax\n\t"\
       :
       : "a"(elf));
 	for (unsigned i = 0; ; ) {
