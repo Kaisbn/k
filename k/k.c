@@ -18,7 +18,8 @@
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include <k/kstd.h>
@@ -27,31 +28,33 @@
 
 #define COM1 0x3f8
 
-void k_main(unsigned long magic, multiboot_info_t *info)
+void
+k_main (unsigned long magic, multiboot_info_t *info)
 {
-	(void)magic;
-	(void)info;
+  (void)magic;
+  (void)info;
 
-
-	char star[4] = "|/-\\";
-	char *fb = (void *)0xb8000;
-  init_serial(COM1);
-  init_kfs(info);
-  init_gdt();
-  init_idt();
-  init_syscall();
-  init_brk(info);
-  int elf = load_elf(info);
+  char star[4] = "|/-\\";
+  char *fb = (void *)0xb8000;
+  init_serial (COM1);
+  init_kfs (info);
+  init_gdt ();
+  init_idt ();
+  init_syscall ();
+  init_brk (info);
+  int elf = load_elf (info);
   if (!elf)
     return;
-  asm volatile ("movl %0, %%eax\n\t"\
-                "jmp *%%eax\n\t"\
-      :
-      : "a"(elf));
-	for (unsigned i = 0; ; ) {
-		*fb = star[i++ % 4];
-	}
+  asm volatile("movl %0, %%eax\n\t"
+               "jmp *%%eax\n\t"
+               :
+               : "a"(elf));
 
-	for (;;)
-		asm volatile ("hlt");
+  for (unsigned i = 0;;)
+    {
+      *fb = star[i++ % 4];
+    }
+
+  for (;;)
+    asm volatile("hlt");
 }
