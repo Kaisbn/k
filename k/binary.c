@@ -48,9 +48,6 @@ int load_elf(multiboot_info_t *info)
       {
         void *data = sbrk(phdr.p_memsz);
         read(fd, data, phdr.p_filesz);
-        if (phdr.p_filesz < phdr.p_memsz)
-          memset(data + phdr.p_filesz, 0,
-              phdr.p_memsz - phdr.p_filesz);
       }
     }
     close(fd);

@@ -43,7 +43,7 @@ ssize_t read(int fd, void *buf, size_t count)
   int off = table[fd];
   for (u32 i = 0; i < ino->d_blk_cnt; ++i)
   {
-    if (count > read)
+    if (count > 0)
     {
       struct kfs_block blk = *((struct kfs_block *)get_blk(ino->d_blks[i]));
       u32 cksum = blk.cksum;
@@ -59,12 +59,12 @@ ssize_t read(int fd, void *buf, size_t count)
   }
   for (u32 i = 0; i < ino->i_blk_cnt; ++i)
   {
-    if (count > read)
+    if (count > 0)
     {
       struct kfs_iblock *iblk = get_blk(ino->i_blks[i]);
       for (u32 j = 0; j < iblk->blk_cnt; ++j)
       {
-        if (count > read)
+        if (count > 0)
         {
           struct kfs_block blk = *((struct kfs_block *)get_blk(iblk->blks[j]));
           u32 cksum = blk.cksum;
